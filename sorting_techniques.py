@@ -14,7 +14,7 @@ print("the sorted array is :", selection_sort([89, 0, 45, 23, 12, 78, 89, 34, 56
 
 
 ##bubble sort
-## The worst-case and average-case time complexity of bubble sort isO(n²) , its best-case time complexity is O(n) (when optimized)
+## The worst-case and average-case time complexity of bubble sort is O(n²) , its best-case time complexity is O(n) (when optimized)
 # its space complexity is O(1)
 def bubble_sort(arr):
     n= len(arr)
@@ -87,3 +87,5 @@ def quick_sort(arr):
         right = [x for x in arr if x > pivot]
         return quick_sort(left) + middle + quick_sort(right)
 print("the sorted array is :", quick_sort([64, 25, 12, 22, 11]))
+
+
