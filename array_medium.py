@@ -58,3 +58,31 @@ def sort_012(arr):
 
     return arr
 print("sorted array of 0s, 1s and 2s:", sort_012([0, 1, 2, 0, 1, 2, 1, 0]))
+
+## maxmum subarray sum problem brute force approach
+def max_subarray_sum(arr):
+    n = len(arr)
+    max_sum = float()  
+
+    for i in range(n):
+        current_sum = 0
+        for j in range(i, n):
+            current_sum += arr[j]
+            max_sum = max(max_sum, current_sum)
+
+    return max_sum
+print("maximum subarray sum:", max_subarray_sum([-2,1,-3,4,-1,2,1,-5,4]))
+
+# optimized approach using Kadane's algorithm
+def max_subarray_sum_kadane(arr):
+    max_sum = float('-inf')
+    current_sum = 0
+
+    for num in arr:
+        current_sum += num
+        max_sum = max(max_sum, current_sum)
+        if current_sum < 0:
+            current_sum = 0
+
+    return max_sum
+print("maximum subarray sum:", max_subarray_sum_kadane([-2,1,-3,4,-1,2,1,-5,4]))
