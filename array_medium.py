@@ -161,3 +161,51 @@ def longestConsecutive(nums):
     return longest
 
 print("the lonest concecutive sequence is:",longestConsecutive(nums=[1,2,100,101,200,3,4,5]) )
+
+## set matrix zero 
+def setZeroes(matrix):
+    rows, cols = len(matrix), len(matrix[0])
+    zero_positions = []
+    
+    # Step 1: find all original zeros
+    for r in range(rows):
+        for c in range(cols):
+            if matrix[r][c] == 0:
+                zero_positions.append((r, c))
+    
+    # Step 2: zero out rows and columns
+    for r, c in zero_positions:
+        for i in range(cols):
+            matrix[r][i] = 0      # zero the whole row
+        for i in range(rows):
+            matrix[i][c] = 0      # zero the whole column
+    
+    return matrix
+print("the zero matrix:", setZeroes(matrix=[[1,1,1],[1,0,1],[1,1,1]]))
+
+## rotation of a matrix by 90 degree
+def matrix_rotate(matrix):
+    n= len(matrix)
+    for i in range (n):
+        for j in range (i+1,n):
+            matrix[i][j], matrix[j][i]= matrix[j][i], matrix[i][j]
+    for row in matrix:
+        row.reverse()
+    return matrix
+print("the matrix after 90 degree rotation:", matrix_rotate(matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+
+## count the maximum subarray with given k
+def subarraySum(arr, k):
+    prefix_sum = 0
+    count = 0
+    sum_freq = {0: 1}   # base case: empty prefix has sum 0
+    
+    for num in arr:
+        prefix_sum += num
+        
+        if (prefix_sum - k) in sum_freq:
+            count += sum_freq[prefix_sum - k]
+        
+        sum_freq[prefix_sum] = sum_freq.get(prefix_sum, 0) + 1
+    
+    return count
