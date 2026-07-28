@@ -134,7 +134,69 @@ def maj_element(nums):
 print ("the majority element is", majority_E(nums=[1, 2, 1, 1, 3, 2] ))
 
 ## Grid Unique Paths : DP on Grids (DP8)
-def grid_unique_paths(arr,n,m):
-    x=len(arr)
-    for n in range(x):
-        for 
+## brute force approach
+def uniquePaths(m, n):
+    def solve(i, j):
+        if i == m-1 or j == n-1:  
+            return 1
+        return solve(i+1, j) + solve(i, j+1)
+    return solve(0, 0)
+print("the grid unique path", uniquePaths(m=3,n=2) )
+
+##optimal
+from math import comb
+
+def uniquePaths_combinatorics(m, n):
+    return comb(m + n - 2, m - 1)
+print("the grid unique path", uniquePaths(m=3,n=2) )
+
+## Count Reverse Pairs
+#brute force
+def reversePairs_bruteforce(arr):
+    n = len(arr)
+    count = 0
+    for i in range(n):
+        for j in range(i+1, n):
+            if arr[i] > 2 * arr[j]:
+                count += 1
+    return count
+
+print(reversePairs_bruteforce([1,3,2,3,1])) 
+
+#optimal 
+def reversePairs(arr):
+    def merge_sort(a, low, high):
+        if low >= high:
+            return 0
+        mid = (low + high) // 2
+        count = merge_sort(a, low, mid) + merge_sort(a, mid+1, high)
+        count += count_pairs(a, low, mid, high)
+        merge(a, low, mid, high)
+        return count
+
+    def count_pairs(a, low, mid, high):
+        j = mid + 1
+        count = 0
+        for i in range(low, mid+1):
+            while j <= high and a[i] > 2 * a[j]:
+                j += 1
+            count += j - (mid + 1)
+        return count
+
+    def merge(a, low, mid, high):
+        temp = []
+        left, right = low, mid+1
+        while left <= mid and right <= high:
+            if a[left] <= a[right]:
+                temp.append(a[left]); left += 1
+            else:
+                temp.append(a[right]); right += 1
+        while left <= mid:
+            temp.append(a[left]); left += 1
+        while right <= high:
+            temp.append(a[right]); right += 1
+        a[low:high+1] = temp
+
+    return merge_sort(arr, 0, len(arr)-1)
+
+print(reversePairs([1,3,2,3,1])) 
