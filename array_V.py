@@ -118,3 +118,65 @@ def longest_subarray_zero_sum(arr):
 
 print(longest_subarray_zero_sum([9, -3, 3, -1, 6, -5]))  
 
+## Count the number of subarrays with given xor K
+def count_subarray_xor(arr,t):
+    n=len(arr)
+    count=0
+    for i in range(n):
+        curr_xor=0
+        for j in range(i,n):
+            curr_xor^=arr[j]
+            if curr_xor==t:
+                count +=1
+    return count
+print ("the count of subarray with given target is :", count_subarray_xor(arr=[4, 2, 2, 6, 4],t=6))
+
+#optimal: Prefix XOR + HashMap (O(n) time, O(n) space)
+def countSubarraysXOR(arr, k):
+    xor_count = {0: 1}  # prefix XOR of 0 occurs once (empty prefix, before array starts)
+    curr_xor = 0
+    count = 0
+
+    for num in arr:
+        curr_xor ^= num
+        needed = curr_xor ^ k  # the prefix XOR we need to have seen before
+
+        if needed in xor_count:
+            count += xor_count[needed]
+
+        xor_count[curr_xor] = xor_count.get(curr_xor, 0) + 1
+
+    return count
+
+print(countSubarraysXOR([4, 2, 2, 6, 4], 6))  # 4
+print(countSubarraysXOR([5, 6, 7, 8, 9], 5))  # 2
+
+##Length of Longest Substring without any Repeating Character
+def longest_substring(s):
+    n=len(s)
+    max_len=0
+    for i in range(n):
+        for j in range (i,n):
+            substring = s[i:j+1]
+            if len(set(substring))==len(substring):
+                max_len=max(max_len,len(substring))
+    return max_len
+print("the lenght of longest substring without any repeating character is:", longest_substring(s="abcddabac"))
+
+#Optimized version — HashMap instead of Set (avoids shrinking one-by-one):
+def longest_substring_optimized(s):
+    last_seen = {}
+    left = 0
+    max_len = 0
+
+    for right in range(len(s)):
+        char = s[right]
+        if char in last_seen and last_seen[char] >= left:
+            left = last_seen[char] + 1  # jump left directly, no loop needed
+        last_seen[char] = right
+        max_len = max(max_len, right - left + 1)
+
+    return max_len
+print("the lenght of longest substring without any repeating character is:", longest_substring_optimized(s="abcddabac"))
+
+                            
