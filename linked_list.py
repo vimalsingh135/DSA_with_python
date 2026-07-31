@@ -210,3 +210,114 @@ printLL(result)   # 5->2
 head2 = convertArr2LL([1, 2, 3, 4, 5])
 result2 = removeNthFromEnd(head2, 3)
 printLL(result2)  # 1->2->4->5
+
+
+
+## Add two numbers represented as Linked Lists
+class Node:
+    def __init__(self, data1, next1=None):
+        self.data = data1
+        self.next = next1
+
+
+def addTwoNumbers(l1, l2):
+    dummyNode = Node(-1)
+    temp = dummyNode
+    carry = 0
+
+    while l1 is not None or l2 is not None or carry:
+        sum_val = carry
+        if l1 is not None:
+            sum_val += l1.data
+            l1 = l1.next
+        if l2 is not None:
+            sum_val += l2.data
+            l2 = l2.next
+
+        carry = sum_val // 10
+        digit = sum_val % 10
+
+        temp.next = Node(digit)
+        temp = temp.next
+
+    return dummyNode.next
+
+
+# ---- helper functions ----
+def convertArr2LL(arr):
+    head = Node(arr[0])
+    curr = head
+    for i in range(1, len(arr)):
+        curr.next = Node(arr[i])
+        curr = curr.next
+    return head
+
+
+def printLL(head):
+    curr = head
+    while curr is not None:
+        print(curr.data, end="->" if curr.next else "")
+        curr = curr.next
+    print()
+
+
+# ---- driver code ----
+l1 = convertArr2LL([2, 4, 3])   # represents 342
+l2 = convertArr2LL([5, 6, 4])   # represents 465
+result = addTwoNumbers(l1, l2)
+printLL(result)  # 7->0->8  (represents 807)
+
+l1b = convertArr2LL([9, 9, 9, 9, 9, 9])
+l2b = convertArr2LL([9, 9, 9, 9])
+result2 = addTwoNumbers(l1b, l2b)
+printLL(result2)  # 8->9->9->9->0->0->0->1
+
+
+## Delete given node in a Linked List : O(1) approach
+class Node:
+    def __init__(self, data1, next1=None):
+        self.data = data1
+        self.next = next1
+
+
+def deleteNode(node):
+    # node is NOT the tail (guaranteed), so node.next always exists
+    node.data = node.next.data   # copy next node's value into this node
+    node.next = node.next.next   # skip over the (now-duplicate) next node
+
+
+# ---- helper functions ----
+def convertArr2LL(arr):
+    head = Node(arr[0])
+    curr = head
+    for i in range(1, len(arr)):
+        curr.next = Node(arr[i])
+        curr = curr.next
+    return head
+
+
+def printLL(head):
+    curr = head
+    while curr is not None:
+        print(curr.data, end="->" if curr.next else "")
+        curr = curr.next
+    print()
+
+
+def findNode(head, target):
+    curr = head
+    while curr.data != target:
+        curr = curr.next
+    return curr
+
+
+# ---- driver code ----
+head = convertArr2LL([1, 4, 2, 3])
+nodeToDelete = findNode(head, 2)   # simulates "being given" node with value 2
+deleteNode(nodeToDelete)
+printLL(head)  # 1->4->3
+
+head2 = convertArr2LL([1, 2, 3, 4])
+nodeToDelete2 = findNode(head2, 1)
+deleteNode(nodeToDelete2)
+printLL(head2)  # 2->3->4
