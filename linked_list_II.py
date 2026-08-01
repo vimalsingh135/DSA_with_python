@@ -1,0 +1,74 @@
+## Check if the given Linked List is Palindrome
+class Node:
+    def __init__(self, data1, next1=None):
+        self.data = data1
+        self.next = next1
+
+
+def isPalindrome(head):
+    if head is None or head.next is None:
+        return True
+
+    # Step 1: find the middle using slow/fast pointers
+    slow = head
+    fast = head
+    while fast.next is not None and fast.next.next is not None:
+        slow = slow.next
+        fast = fast.next.next
+
+    # Step 2: reverse the second half (starting right after slow)
+    newHead = reverseLinkedList(slow.next)
+
+    # Step 3: compare first half with reversed second half
+    first = head
+    second = newHead
+    isPalin = True
+    while second is not None:
+        if first.data != second.data:
+            isPalin = False
+            break
+        first = first.next
+        second = second.next
+
+    # Step 4: restore the list back to original (good practice)
+    slow.next = reverseLinkedList(newHead)
+
+    return isPalin
+
+
+def reverseLinkedList(head):
+    prev = None
+    curr = head
+    while curr is not None:
+        nxt = curr.next
+        curr.next = prev
+        prev = curr
+        curr = nxt
+    return prev
+
+
+# ---- helper functions ----
+def convertArr2LL(arr):
+    head = Node(arr[0])
+    curr = head
+    for i in range(1, len(arr)):
+        curr.next = Node(arr[i])
+        curr = curr.next
+    return head
+
+
+def printLL(head):
+    curr = head
+    while curr is not None:
+        print(curr.data, end="->" if curr.next else "")
+        curr = curr.next
+    print()
+
+
+# ---- driver code ----
+head1 = convertArr2LL([3, 7, 5, 7, 3])
+print(isPalindrome(head1))   # True
+printLL(head1)                # confirms list is restored: 3->7->5->7->3
+
+head2 = convertArr2LL([1, 1, 2, 1])
+print(isPalindrome(head2))   # False
