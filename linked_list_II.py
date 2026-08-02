@@ -72,3 +72,16 @@ printLL(head1)                # confirms list is restored: 3->7->5->7->3
 
 head2 = convertArr2LL([1, 1, 2, 1])
 print(isPalindrome(head2))   # False
+
+## Floyd's Cycle Detection (Tortoise and Hare) problem
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        slow = fast = head
+
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                return True
+
+        return False
