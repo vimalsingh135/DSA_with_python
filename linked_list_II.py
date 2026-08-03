@@ -92,7 +92,7 @@ class listNode:
         self.val = val
         self.next = next
 
-    def reverseKGroup(head, k):
+def reverseKGroup(head, k):
         node=head
         count=0
         while node and count<k:
@@ -100,3 +100,36 @@ class listNode:
             count+=1
         if count<k:
             return head
+
+        prev,curr=None,head
+        for _ in range(k):
+            nxt=curr.next
+            curr.next=prev
+            prev=curr
+            curr=nxt
+
+        head.next = reverseKGroup(curr, k)
+        return prev
+
+def printList(head):
+    node = head
+    while node:
+        print(node.val, end=" -> " if node.next else "\n")
+        node = node.next
+
+# ---- Driver code ----
+# Build list: 1 -> 2 -> 3 -> 4 -> 5
+head = listNode(1)
+head.next = listNode(2)
+head.next.next = listNode(3)
+head.next.next.next = listNode(4)
+head.next.next.next.next = listNode(5)
+
+print("Original list:")
+printList(head)
+
+k = 2
+new_head = reverseKGroup(head, k)
+
+print(f"Reversed in groups of {k}:")
+printList(new_head)
