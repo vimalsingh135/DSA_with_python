@@ -85,3 +85,18 @@ class Solution:
                 return True
 
         return False
+
+## Reverse Linked List in groups of Size K
+class listNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+    def reverseKGroup(head, k):
+        node=head
+        count=0
+        while node and count<k:
+            node=node.next
+            count+=1
+        if count<k:
+            return head

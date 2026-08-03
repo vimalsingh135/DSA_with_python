@@ -1,0 +1,63 @@
+IMPORTANT PATTERNS FOR SOLVING MOST LINKED LIST QUESTIONS 
+
+
+
+Core traversal & rewiring
+
+1. prev/curr/next trio (reversal)
+Reverse a list or a segment of it. Basis for: Reverse Linked List, Reverse in groups of K, Reverse between positions L and R.
+
+2. Slow/fast pointers (two pointers, different speeds)
+Find middle, detect "Nth from end," check palindrome (combined with reversal). Basis for: Middle of LL, Remove Nth From End, Palindrome Check.
+
+3. Dummy node
+Whenever the head itself might change, get deleted, or you're building a new list from scratch. Basis for: Merge Two Lists, Add Two Numbers, Remove Nth From End, Remove Duplicates.
+
+4. Two-list parallel walk (merge/compare)
+Walk two lists side by side, advancing whichever pointer is "behind." Basis for: Merge Two Sorted Lists, Add Two Numbers, Intersection of Two Lists (with a length-equalizing trick).
+
+5. Copy-and-skip
+When you have a node reference but not the head. Basis for: Delete Given Node.
+
+Cycle-related (a distinct family)
+
+6. Floyd's Cycle Detection (slow/fast, but for cycles)
+Detect if a cycle exists — if fast ever equals slow, there's a cycle. Different exit condition than middle-finding.
+
+7. Finding cycle start
+After detecting a cycle, reset one pointer to head, move both at speed 1 — they meet exactly at the cycle's starting node. Mathematically elegant, worth understanding why it works, not just memorizing.
+
+Length/counting-based
+
+8. Two-pass length trick
+Compute length first, then walk to a target position. Simpler than slow/fast but O(2n) instead of O(n) — usually the "brute force" before the optimal two-pointer version. Still useful for problems like "rotate list by k" where knowing exact length matters.
+
+9. Length-equalizing two pointers
+For comparing/merging two lists of different lengths (e.g. finding the intersection point of two linked lists) — advance the longer list's pointer first by the length difference, then walk both together.
+
+Recursive patterns
+
+10. Recursive reversal/rebuilding
+"Trust the recursive call to solve everything after this node, then fix one link on the way back up." Applies to: Reverse List (recursive version), Palindrome check (recursive), Flatten a multilevel list, Merge Two Sorted Lists (recursive version).
+
+11. Recursive merge sort on linked lists
+Combines find-middle (to split) + merge-two-lists (to combine) + recursion. The canonical "optimal sort a linked list" solution — O(n log n) time, O(log n) space for recursion stack.
+
+Structural rearrangement (usually compositions of the above)
+
+12. Segment reversal within a larger list
+Reverse only a portion (e.g., reverse nodes between position L and R, or reverse every group of K nodes) — requires careful bookkeeping of what connects to what before/after the reversed segment.
+
+13. Interleaving/reordering
+E.g. "Reorder List" (L0→Ln→L1→Ln-1→...) — combines find-middle + reverse-second-half + merge-alternately. Structurally very similar to your Palindrome Check solution, just building a new list instead of comparing.
+
+14. Rotation
+Rotate a list by k positions — usually: find length, make it circular temporarily, then break the circle at the right spot.
+
+Beyond single-pass problems (different problem shape entirely)
+
+15. Doubly linked list + hashmap combos
+LRU Cache, LFU Cache — you're maintaining a structure across many operations (insert/delete/access), not doing one traversal. Different mental model: O(1) operations via a doubly linked list (for order) + a hashmap (for O(1) lookup).
+
+16. Multi-level / nested linked lists
+"Flatten a multilevel doubly linked list" — depth-first traversal logic, usually recursive.
