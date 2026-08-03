@@ -133,3 +133,68 @@ new_head = reverseKGroup(head, k)
 
 print(f"Reversed in groups of {k}:")
 printList(new_head)
+
+## Check if the given Linked List is Palindrome
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def isPalindrome(head):
+    if not head or not head.next:
+        return True
+
+    # Step 1: find the middle using slow/fast pointers
+    slow, fast = head, head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    # slow is now at the middle (or start of 2nd half)
+
+    # Step 2: reverse the second half (same pattern as reverseKGroup)
+    prev = None
+    curr = slow
+    while curr:
+        nxt = curr.next
+        curr.next = prev
+        prev = curr
+        curr = nxt
+
+    # prev is now the head of the reversed second half
+
+    # Step 3: compare first half and reversed second half
+    left, right = head, prev
+    isPalin = True
+    while right:  # right half is shorter or equal, so stop when it ends
+        if left.val != right.val:
+            isPalin = False
+            break
+        left = left.next
+        right = right.next
+
+    return isPalin
+
+
+def printList(head):
+    node = head
+    while node:
+        print(node.val, end=" -> " if node.next else "\n")
+        node = node.next
+
+
+# ---- Driver code ----
+# Test 1: 3 -> 7 -> 5 -> 7 -> 3 (palindrome)
+head1 = ListNode(3, ListNode(7, ListNode(5, ListNode(7, ListNode(3)))))
+print("List 1:")
+printList(head1)
+print("Is palindrome:", isPalindrome(head1))
+
+print()
+
+# Test 2: 1 -> 1 -> 2 -> 1 (not a palindrome)
+head2 = ListNode(1, ListNode(1, ListNode(2, ListNode(1))))
+print("List 2:")
+printList(head2)
+print("Is palindrome:", isPalindrome(head2))
