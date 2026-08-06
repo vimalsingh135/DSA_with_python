@@ -38,3 +38,25 @@ def min_platforms(arr, dep, n):
             j += 1
     
     return max_platforms
+
+## Job Sequencing Problem
+def job_sequenc(id,deadline,profit):
+    jobs = []
+    for i in range(len(id)):
+        jobs.append((id[i], deadline[i], profit[i]))
+    
+    # Sort jobs based on profit in descending order
+    jobs.sort(key=lambda x: x[2], reverse=True)
+    
+    max_deadline = max(deadline)
+    result = [None] * max_deadline
+    total_profit = 0
+    
+    for job in jobs:
+        for j in range(min(max_deadline, job[1]) - 1, -1, -1):
+            if result[j] is None:
+                result[j] = job[0]
+                total_profit += job[2]
+                break
+    
+    return result, total_profit
