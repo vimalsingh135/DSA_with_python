@@ -60,3 +60,38 @@ def job_sequenc(id,deadline,profit):
                 break
     
     return result, total_profit
+
+## Fractional Knapsack Problem : Greedy Approach
+def fractional_knapsack(weights, values, capacity):
+    n = len(weights)
+    items = []
+    
+    for i in range(n):
+        items.append((values[i] / weights[i], weights[i], values[i]))
+    
+    # Sort items based on value-to-weight ratio in descending order
+    items.sort(key=lambda x: x[0], reverse=True)
+    
+    total_value = 0.0
+    for ratio, weight, value in items:
+        if capacity >= weight:
+            capacity -= weight
+            total_value += value
+        else:
+            total_value += ratio * capacity
+            break
+    
+    return total_value
+
+## Minimum Coins (DP - 20)
+def min_coins(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+
+    for i in range(1, amount + 1):
+        for coin in coins:
+            if coin <= i:
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+
+    return dp[amount] if dp[amount] != float('inf') else -1
+print("Minimum coins required: ", min_coins([1, 2, 5], 11))
