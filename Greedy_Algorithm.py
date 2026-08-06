@@ -95,3 +95,19 @@ def min_coins(coins, amount):
 
     return dp[amount] if dp[amount] != float('inf') else -1
 print("Minimum coins required: ", min_coins([1, 2, 5], 11))
+
+## cookies assign
+def cookies_assign(g, s):
+    g.sort()
+    s.sort()
+    
+    i = 0  # index for children
+    j = 0  # index for cookies
+    
+    while i < len(g) and j < len(s):
+        if g[i] <= s[j]:
+            i += 1
+        j += 1
+    
+    return i
+print ("Maximum number of children that can be contented: ", cookies_assign([1, 2, 3], [1, 1]))
