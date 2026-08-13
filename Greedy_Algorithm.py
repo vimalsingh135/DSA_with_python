@@ -110,4 +110,4 @@ def cookies_assign(g, s):
         j += 1
     
     return i
-print ("Maximum number of children that can be contented: ", cookies_assign([1, 2, 3], [1, 1]))
+print ("Maximum number of children that can be contented: ", cookies_assign([1, 2, 3], [1, 1])   )
