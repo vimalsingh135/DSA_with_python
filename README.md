@@ -3,7 +3,7 @@
 
 Welcome to the Striver's A2Z DSA Sheet Solutions repository! This repository contains solutions to all the problems from Striver's A2Z DSA Sheet, implemented in Python by me.
 ## Contents
-`Basics` `Sorting Techniques` `Arrays` `Binary Search` `patterns`
+`Basics` `Sorting Techniques` `Arrays` `Binary Search` `patterns` `linked list`
 ## Resources
 [Link to the Sheet](https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/) <br>
 [Take U Forward - Youtube Channel](https://www.youtube.com/@takeUforward)
