@@ -76,3 +76,45 @@ def combinationSum2(candidates, target):
     backtrack(0, target, [])
     return res
 print(combinationSum2([10,1,2,7,6,1,5], 8))  # Output: [[1,1,6],[1,2,5],[1,7],[2,6]]
+
+## palindrome partitioning | Print all the possible palindrome partitions of a string by recursion
+def partition(s):
+    res = []
+
+    def is_palindrome(sub):
+        return sub == sub[::-1]
+
+    def backtrack(start, path):
+        if start == len(s):
+            res.append(path[:])
+            return
+
+        for end in range(start + 1, len(s) + 1):
+            substr = s[start:end]
+            if is_palindrome(substr):
+                path.append(substr)
+                backtrack(end, path)
+                path.pop()
+
+    backtrack(0, [])
+    return res
+
+print(partition("aab"))  # Output: [['a', 'a', 'b'], ['aa', 'b']]
+
+## find the k-th permutation
+def get_permutation(n, k):
+    from math import factorial
+
+    numbers = list(range(1, n + 1))
+    k -= 1  # convert to zero-based index
+    permutation = []
+
+    for i in range(n):
+        fact = factorial(n - 1 - i)
+        index = k // fact
+        permutation.append(numbers[index])
+        numbers.pop(index)
+        k %= fact
+
+    return ''.join(map(str, permutation))
+print(get_permutation(3, 3))  # Output: "213"
