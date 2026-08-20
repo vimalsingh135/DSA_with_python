@@ -30,3 +30,25 @@ def unique_subsets(arr):
     return result
 
 print(unique_subsets([1, 2, 2]))
+
+## Combination Sum | Print all the combinations that sum to a target by recursion
+def combination_sum(arr, target):
+    result = []
+    arr.sort()
+    def backtrack(index, remaining, path):
+        if remaining==0:
+            result.append(path[:])
+            return
+        if index==len(arr) or remaining<0:
+            return
+        if arr[index] <= remaining:
+            path.append(arr[index])
+            backtrack(index , remaining-arr[index], path)
+            path.pop()
+
+        backtrack(index+1, remaining, path)
+    backtrack(0, target, [])
+    return result
+print(combination_sum([2, 3, 6, 7], 7))  
+print(combination_sum([2, 3, 5], 8))
+print(combination_sum([2], 1))
