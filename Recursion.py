@@ -52,3 +52,27 @@ def combination_sum(arr, target):
 print(combination_sum([2, 3, 6, 7], 7))  
 print(combination_sum([2, 3, 5], 8))
 print(combination_sum([2], 1))
+
+## combination sum II | Print all the unique combinations that sum to a target by recursion
+def combinationSum2(candidates, target):
+    candidates.sort()
+    res = []
+
+    def backtrack(start, remaining, path):
+        if remaining == 0:
+            res.append(path[:])
+            return
+
+        for i in range(start, len(candidates)):
+            # skip duplicates at this recursion level (not across levels)
+            if i > start and candidates[i] == candidates[i - 1]:
+                continue
+            if candidates[i] > remaining:
+                break  # sorted, so everything after is even bigger — prune
+            path.append(candidates[i])
+            backtrack(i + 1, remaining - candidates[i], path)  # i+1: use each number once
+            path.pop()
+
+    backtrack(0, target, [])
+    return res
+print(combinationSum2([10,1,2,7,6,1,5], 8))  # Output: [[1,1,6],[1,2,5],[1,7],[2,6]]
