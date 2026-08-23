@@ -270,3 +270,47 @@ solution = Solution()
 
 # Print the answer
 print(f"The {k}-th element of two sorted arrays is: {solution.kthElement(a, b, k)}")
+
+## book allocation problem
+class Solution:
+    def countStudentsRequired(self, nums, maxPages):
+        students = 1
+        pagesAssigned = 0
+        
+        for pages in nums:
+            if pagesAssigned + pages > maxPages:
+                students += 1          # start a new student
+                pagesAssigned = pages  # this book goes to the new student
+            else:
+                pagesAssigned += pages
+        
+        return students
+
+    def findPages(self, nums, m):
+        n = len(nums)
+        
+        # If there are fewer books than students, allocation is impossible
+        if m > n:
+            return -1
+        
+        low = max(nums)
+        high = sum(nums)
+        
+        result = -1
+        while low <= high:
+            mid = (low + high) // 2
+            studentsNeeded = self.countStudentsRequired(nums, mid)
+            
+            if studentsNeeded <= m:
+                result = mid       # mid is feasible, record it, try smaller
+                high = mid - 1
+            else:
+                low = mid + 1       # need more students than we have, try bigger
+        
+        return result
+
+
+# Test
+sol = Solution()
+print(sol.findPages([12, 34, 67, 90], 2))       # 113
+print(sol.findPages([25, 46, 28, 49, 24], 4))   # 71
