@@ -176,3 +176,97 @@ obj = Solution()
 result = obj.search(nums, target)
 
 print(result)
+
+## Median of 2 sorted arrays
+class Solution:
+    def median(self, arr1, arr2):
+        # Always binary search on the smaller array for efficiency
+        if len(arr1) > len(arr2):
+            arr1, arr2 = arr2, arr1
+        
+        m, n = len(arr1), len(arr2)
+        total = m + n
+        half = (total + 1) // 2  # elements needed in the left partition
+        
+        low, high = 0, m
+        
+        while low <= high:
+            cut1 = (low + high) // 2   # elements taken from arr1 into left half
+            cut2 = half - cut1          # elements taken from arr2 into left half
+            
+            # Boundary values around the cut in arr1
+            left1 = arr1[cut1 - 1] if cut1 > 0 else float('-inf')
+            right1 = arr1[cut1] if cut1 < m else float('inf')
+            
+            # Boundary values around the cut in arr2
+            left2 = arr2[cut2 - 1] if cut2 > 0 else float('-inf')
+            right2 = arr2[cut2] if cut2 < n else float('inf')
+            
+            if left1 <= right2 and left2 <= right1:
+                # Valid partition found
+                if total % 2 == 1:
+                    return max(left1, left2)
+                else:
+                    return (max(left1, left2) + min(right1, right2)) / 2.0
+            elif left1 > right2:
+                high = cut1 - 1   # took too much from arr1, shrink
+            else:
+                low = cut1 + 1    # took too little from arr1, expand
+        
+        return -1  # shouldn't reach here if inputs are valid
+
+
+# Test
+sol = Solution()
+print(sol.median([2, 4, 6], [1, 3, 5]))  # 3.5
+print(sol.median([2, 4, 6], [1, 3]))     # 3.0
+
+## K-th Element of two sorted arrays
+class Solution:
+    def kthElement(self, a, b, k):
+        m = len(a)
+        n = len(b)
+
+        # Ensure a is smaller array for optimization
+        if m > n:
+            # Swap a and b
+            return self.kthElement(b, a, k)
+        
+        # Length of the left half
+        left = k
+
+        # Apply binary search
+        low = max(0, k - n)
+        high = min(k, m)
+        while low <= high:
+            mid1 = (low + high) >> 1
+            mid2 = left - mid1
+
+            # Initialize l1, l2, r1, r2
+            l1 = a[mid1 - 1] if mid1 > 0 else float('-inf')
+            l2 = b[mid2 - 1] if mid2 > 0 else float('-inf')
+            r1 = a[mid1] if mid1 < m else float('inf')
+            r2 = b[mid2] if mid2 < n else float('inf')
+
+            # Check if we have found the answer
+            if l1 <= r2 and l2 <= r1:
+                return max(l1, l2)
+            elif l1 > r2:
+                # Eliminate the right half
+                high = mid1 - 1
+            else:
+                # Eliminate the left half
+                low = mid1 + 1
+        
+        # Dummy return statement
+        return -1
+
+a = [2, 3, 6, 7, 9]
+b = [1, 4, 8, 10]
+k = 5
+
+# Create an instance of Solution class
+solution = Solution()
+
+# Print the answer
+print(f"The {k}-th element of two sorted arrays is: {solution.kthElement(a, b, k)}")
