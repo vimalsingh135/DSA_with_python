@@ -54,3 +54,56 @@ class solution:
 
 print("Heap Implementation")
 heap=solution()
+
+## k-th largest/smallest element in an array 
+import heapq
+def findKthLargest(nums, k):
+    heap = []
+    for num in nums:
+        heapq.heappush(heap, num)
+        if len(heap) > k:
+            heapq.heappop(heap)
+    return heap[0]
+print (findKthLargest([3,2,1,5,6,4], 2))  # Output: 5
+print (findKthLargest([3,2,3,1,2,4,5,5,6], 4))  # Output: 4
+
+## Maximum Sum Combination
+## brute force approach: generate all possible sums and sort them to get the k largest sums. This approach has a time complexity of O(n^2 log n) due to sorting.
+def maxSumCombination(arr1, arr2, k):
+    min_heap = []
+    for i in range(len(arr1)):
+        for j in range(len(arr2)):
+            total = arr1[i] + arr2[j]
+            heapq.heappush(min_heap, total)
+            if len(min_heap) > k:
+                heapq.heappop(min_heap)
+    return sorted(min_heap, reverse=True)
+
+print(maxSumCombination([1, 4, 5], [2, 3, 6], 3))  # [11, 10, 8]
+print(maxSumCombination([1, 2], [3, 4], 2))          # [6, 5]
+
+## optimized approach: use a max heap to keep track of the k largest sums. This approach has a time complexity of O(k log k) since we only maintain a heap of size k.
+def maxSumCombinationOptimized(arr1, arr2, k):
+    arr1.sort(reverse=True)
+    arr2.sort(reverse=True)
+    max_heap = []
+    visited = set()
+    
+    heapq.heappush(max_heap, (-(arr1[0] + arr2[0]), 0, 0))
+    visited.add((0, 0))
+    
+    result = []
+    
+    while len(result) < k:
+        current_sum, i, j = heapq.heappop(max_heap)
+        result.append(-current_sum)
+        
+        if i + 1 < len(arr1) and (i + 1, j) not in visited:
+            heapq.heappush(max_heap, (-(arr1[i + 1] + arr2[j]), i + 1, j))
+            visited.add((i + 1, j))
+        
+        if j + 1 < len(arr2) and (i, j + 1) not in visited:
+            heapq.heappush(max_heap, (-(arr1[i] + arr2[j + 1]), i, j + 1))
+            visited.add((i, j + 1))
+    
+    return result
