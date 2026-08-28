@@ -107,3 +107,31 @@ def maxSumCombinationOptimized(arr1, arr2, k):
             visited.add((i, j + 1))
     
     return result
+
+## Find Median from Data Stream
+import heapq
+class MeadianFinder:
+    def __init__(self):
+        self.max_heap=[]
+        self.min_heap=[]
+
+    def addNum(self, num):
+        heapq.heappush(self.max_heap, -num)
+        heapq.heappush(self.min_heap, -heapq.heappop(self.max_heap))
+        if len(self.max_heap)<len(self.min_heap):
+            heapq.heappush(self.max_heap, -heapq.heappop(self.min_heap))
+
+    def findMedian(self):
+        if len(self.max_heap)>len(self.min_heap):
+            return -self.max_heap[0]
+        else:
+            return (-self.max_heap[0]+self.min_heap[0])/2
+
+print("Median Finder")
+medianFinder = MeadianFinder()
+medianFinder.addNum(1)
+print(medianFinder.findMedian())  # Output: 1.0
+medianFinder.addNum(2)
+print(medianFinder.findMedian())  # Output: 1.5
+medianFinder.addNum(3)
+print(medianFinder.findMedian())  # Output: 2.0
