@@ -135,3 +135,62 @@ medianFinder.addNum(2)
 print(medianFinder.findMedian())  # Output: 1.5
 medianFinder.addNum(3)
 print(medianFinder.findMedian())  # Output: 2.0
+
+## Merge K Sorted Arrays
+import heapq
+
+class Solution:
+    def mergeKSortedArrays(self, arr, k):
+        # min-heap of (value, array_index, element_index)
+        min_heap = []
+        
+        # push the first element of each of the k arrays
+        for i in range(k):
+            heapq.heappush(min_heap, (arr[i][0], i, 0))
+        
+        result = []
+        
+        # pop the smallest, push the next element from the same array
+        while min_heap:
+            val, arr_idx, elem_idx = heapq.heappop(min_heap)
+            result.append(val)
+            
+            if elem_idx + 1 < len(arr[arr_idx]):
+                next_val = arr[arr_idx][elem_idx + 1]
+                heapq.heappush(min_heap, (next_val, arr_idx, elem_idx + 1))
+        
+        return result
+print("Merge K Sorted Arrays")
+solution = Solution()
+arrays = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+merged_array = solution.mergeKSortedArrays(arrays, len(arrays))
+print(merged_array)  # Output: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+
+## Top K Frequent Elements
+from collections import Counter
+
+class Solution:
+    def topKFrequent(self, nums, k):
+        count = Counter(nums)
+        
+        # bucket[i] = list of numbers that occur exactly i times
+        buckets = [[] for _ in range(len(nums) + 1)]
+        for num, freq in count.items():
+            buckets[freq].append(num)
+        
+        result = []
+        # scan from highest possible frequency down to 1
+        for freq in range(len(buckets) - 1, 0, -1):
+            for num in buckets[freq]:
+                result.append(num)
+                if len(result) == k:
+                    return result
+        
+        return result
+
+print("Top K Frequent Elements")
+solution = Solution()
+nums = [1, 1, 1, 2, 2, 3]
+k = 2
+print(solution.topKFrequent(nums, k))  # Output: [1, 2]
