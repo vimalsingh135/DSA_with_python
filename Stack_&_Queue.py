@@ -203,3 +203,35 @@ if __name__ == "__main__":
     print("The element popped is", q.pop())
     print("The element popped is", q.pop())
     print("Is the queue empty?", "Yes" if q.isEmpty() else "No")
+
+## Check for Balanced Parentheses
+class Solution:
+    # Function to check if the input string has valid parentheses
+    def isValid(self, s: str) -> bool:
+        stack = []  # Stack to store opening brackets
+
+        for ch in s:
+            if ch in "({[":
+                stack.append(ch)  # Push opening brackets to stack
+            else:
+                if not stack:
+                    return False  # No matching opening bracket
+                top = stack.pop()
+
+                # Check for matching pair
+                if (ch == ')' and top == '(') or \
+                   (ch == ']' and top == '[') or \
+                   (ch == '}' and top == '{'):
+                    continue
+                else:
+                    return False
+
+        return not stack  # True if all brackets matched
+
+# Driver code
+sol = Solution()
+s = "()[{}()]"
+if sol.isValid(s):
+    print("True")
+else:
+    print("False")
