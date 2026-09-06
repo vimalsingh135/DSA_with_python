@@ -267,3 +267,75 @@ if sol.isValid(s):
     print("True")
 else:
     print("False")
+
+
+## Next Greater Element Using Stack
+# Solution class to find next greater elements
+class Solution:
+    # Function to find next greater elements
+    def nextGreater(self, nums):
+        # Stack to store elements
+        stack = []
+
+        # Result array of same size
+        n = len(nums)
+        res = [0] * n
+
+        # Traverse from right to left
+        for i in range(n - 1, -1, -1):
+
+            # Pop all smaller or equal elements
+            while stack and stack[-1] <= nums[i]:
+                stack.pop()
+
+            # If stack is empty, no greater element
+            if not stack:
+                res[i] = -1
+
+            # Else top of stack is the answer
+            else:
+                res[i] = stack[-1]
+
+            # Push current element
+            stack.append(nums[i])
+
+        # Return the result
+        return res
+
+# Main function
+def main():
+    nums = [4, 5, 2, 10]
+    sol = Solution()
+    ans = sol.nextGreater(nums)
+    print(" ".join(map(str, ans)))
+
+main()
+
+## sorting a stack using recursion
+
+def insert(stack, temp):
+    # Base case: if the stack is empty or temp is larger than the top element
+    if not stack or stack[-1] <= temp:
+        stack.append(temp)
+        return
+    
+    # Pop the top element and recursively insert
+    val = stack.pop()
+    insert(stack, temp)
+    
+    # Push the popped element back
+    stack.append(val)
+
+def sortStack(stack):
+    if stack:
+        temp = stack.pop()
+        sortStack(stack)
+        insert(stack, temp)
+
+# Main function
+if __name__ == "__main__":
+    stack = [4, 1, 3, 2]
+    sortStack(stack)
+
+    # Print the sorted stack
+    print("Sorted stack (descending order):", stack)
