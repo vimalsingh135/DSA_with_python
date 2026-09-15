@@ -42,3 +42,39 @@ if __name__ == "__main__":
     s = " amazing coding skills "
     print(obj.reverseWords(s))
 
+
+## Longest Palindromic Substring
+def longest_palindrome(s):
+    n=len(s)
+    if n==0:
+        return ""
+
+    start=0
+    max_lenght=1
+
+    for i in range(1, n):
+        # Even length palindrome
+        low=i-1
+        high=i
+        while low>=0 and high<n and s[low]==s[high]:
+            if high-low+1>max_lenght:
+                start=low
+                max_lenght=high-low+1
+            low-=1
+            high+=1
+
+        # Odd length palindrome
+        low=i-1
+        high=i+1
+        while low>=0 and high<n and s[low]==s[high]:
+            if high-low+1>max_lenght:
+                start=low
+                max_lenght=high-low+1
+            low-=1
+            high+=1
+
+    return s[start:start+max_lenght]
+print ("the longest palindromic substring is :", longest_palindrome("babad"))
+print ("the longest palindromic substring is :", longest_palindrome("cbbdkkanabidabcasasasasa"))
+
+## Roman Numerals to Integer

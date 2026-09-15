@@ -88,3 +88,4 @@ def quick_sort(arr):
         return quick_sort(left) + middle + quick_sort(right)
 print("the sorted array is :", quick_sort([64, 25, 12, 22, 11]))
 
+#
