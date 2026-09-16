@@ -26,12 +26,12 @@ print("second largest element:", sec_largest_element(arr))
 
 ## check if the is sorted or not 
 def is_sorted(arr):
-    for i in range (len(arr)-1):
+    for i in range (len(arr)-1): ## we are going till the last element of out array
         if arr[i]>arr[i+1]:
             return False
     return True
 
-arr = [1,2,3,4,5,6,7,8,9]
+arr = [1,2,3,4,5,6,8,7,9]
 print("is the array sorted?", is_sorted(arr))
 
 ## remove duplicates from the array
