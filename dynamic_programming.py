@@ -69,3 +69,25 @@ class Solution:
 print(Solution().rob([1,2,3,1]))  # 4
 print(Solution().rob([2,7,9,3,1]))  # 12
 print(Solution().rob([2,1,1,2]))  # 4
+
+
+## Ninja Training Problem
+class Solution:
+    def ninjaTraining(self, matrix):
+        n = len(matrix)
+        if n == 0:
+            return 0
+
+        # dp[j] = best total points ending with activity j on the current day
+        dp = matrix[0][:]  # day 0 base case
+
+        for i in range(1, n):
+            new_dp = [0, 0, 0]
+            for j in range(3):
+                # pick best from previous day where activity != j
+                best_prev = max(dp[k] for k in range(3) if k != j)
+                new_dp[j] = matrix[i][j] + best_prev
+            dp = new_dp
+
+        return max(dp)
+print(Solution().ninjaTraining([[1,2,3], [10,15,10], [3,5,12]]))  # 25
