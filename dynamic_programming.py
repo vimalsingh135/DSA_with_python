@@ -91,3 +91,33 @@ class Solution:
 
         return max(dp)
 print(Solution().ninjaTraining([[1,2,3], [10,15,10], [3,5,12]]))  # 25
+
+# 0/1 Knapsack Problem
+# by recursion
+class Solution:
+    def knapsack(self, val, wt, w, n):
+        if n == 0 or w == 0:
+            return 0
+
+        if wt[n - 1] <= w:
+            include=val[n-1]+self.knapsack(val, wt, w - wt[n - 1], n - 1)
+            exclude=self.knapsack(val, wt, w, n - 1)
+            return max(include, exclude)
+        else:
+            return self.knapsack(val, wt, w, n - 1)
+
+print(Solution().knapsack([60, 100, 120], [10, 20, 30], 50, 3))  # 220
+
+# by dynamic programming tabulation
+class Solution:
+    def knapsack(self, val, wt, w, n):
+        dp = [[0 for _ in range(w + 1)] for _ in range(n + 1)]
+
+        for i in range(1, n + 1):
+            for j in range(1, w + 1):
+                if wt[i - 1] <= j:
+                    dp[i][j] = max(val[i - 1] + dp[i - 1][j - wt[i - 1]], dp[i - 1][j])
+                else:
+                    dp[i][j] = dp[i - 1][j]
+
+        return dp[n][w]
